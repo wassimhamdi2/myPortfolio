@@ -1,0 +1,39 @@
+<section id="education" class="py-16 sm:py-28 px-4 sm:px-6 md:px-8 bg-slate-100 dark:bg-surface-container-low transition-colors duration-300">
+  <div class="max-w-7xl mx-auto">
+
+    <header class="edu-header mb-12 sm:mb-24">
+      <p class="font-serif-luxury italic text-indigo-400 dark:text-primary/60 text-base sm:text-lg mb-2">{{ i18n.get('edu_eyebrow') }}</p>
+      <h1 class="font-headline text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight text-slate-900 dark:text-on-surface mb-4 sm:mb-6 max-w-4xl">
+        {{ i18n.get('edu_heading') }} <span class="text-indigo-600 dark:text-primary italic">{{ i18n.get('edu_accent') }}</span>
+      </h1>
+      <div class="luxury-divider w-full mb-6 sm:mb-8"></div>
+      <p class="text-base sm:text-lg text-slate-500 dark:text-on-surface-variant leading-relaxed max-w-2xl">
+        {{ i18n.get('edu_desc') }}
+      </p>
+    </header>
+
+    <!-- Degrees -->
+    <div class="space-y-4 sm:space-y-6">
+      @for (deg of degrees; track deg.title) {
+        <div class="edu-degree spotlight-card group relative rounded-2xl
+                    bg-white dark:bg-surface-container-low
+                    border border-slate-200 dark:border-outline-variant/10
+                    hover:border-indigo-600/20 dark:hover:border-primary/20
+                    transition-all duration-300 p-5 sm:p-8"
+             (mousemove)="onSpotlight($event)">
+          <div class="mb-2 sm:mb-0 sm:grid sm:grid-cols-12 sm:gap-6">
+            <div class="sm:col-span-3 mb-1 sm:mb-0">
+              <span class="font-label text-xs sm:text-sm text-indigo-600 dark:text-primary font-bold uppercase tracking-widest">{{ deg.period }}</span>
+            </div>
+            <div class="sm:col-span-9">
+              <h3 class="font-headline text-lg sm:text-2xl font-bold text-slate-900 dark:text-on-surface mb-1 sm:mb-2">{{ deg.title }}</h3>
+              <p class="text-sm sm:text-base text-slate-500 dark:text-on-surface-variant italic mb-1">{{ deg.subtitle }}</p>
+              <p class="font-serif-luxury italic text-base sm:text-lg text-indigo-600 dark:text-secondary">{{ deg.institution }}</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

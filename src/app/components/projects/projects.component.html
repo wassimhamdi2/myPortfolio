@@ -1,0 +1,142 @@
+<section id="projects" class="py-16 sm:py-28 px-4 sm:px-6 md:px-8 bg-white dark:bg-surface transition-colors duration-300">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Header -->
+    <header class="projects-header mb-12 sm:mb-20">
+      <p class="font-serif-luxury italic text-indigo-400 dark:text-primary/60 text-base sm:text-lg mb-2">{{ i18n.get('projects_eyebrow') }}</p>
+      <h1 class="font-headline text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight text-slate-900 dark:text-on-surface mb-4 sm:mb-6 max-w-3xl">
+        {{ i18n.get('projects_heading') }} <span class="text-indigo-600 dark:text-primary italic">{{ i18n.get('projects_accent') }}</span>
+      </h1>
+      <div class="flex flex-col gap-6 sm:gap-8">
+        <p class="text-slate-500 dark:text-on-surface-variant text-base sm:text-lg max-w-xl font-body leading-relaxed">
+          {{ i18n.get('projects_subtitle') }}
+        </p>
+        <!-- Filter chips -->
+        <div class="flex flex-wrap gap-2 sm:gap-3">
+          @for (f of filters; track f.value) {
+            <button (click)="setFilter(f.value)"
+                    class="px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-label text-xs font-bold uppercase tracking-wider transition-all duration-200 active:scale-90 border"
+                    [ngClass]="activeFilter() === f.value
+                      ? 'bg-indigo-600 dark:bg-primary text-white dark:text-on-primary border-indigo-600 dark:border-primary shadow-lg shadow-indigo-600/20'
+                      : 'bg-slate-100 dark:bg-surface-container-high text-slate-600 dark:text-on-surface-variant border-slate-200/60 dark:border-outline-variant/15 hover:border-indigo-400/40'">
+              {{ f.label }}
+            </button>
+          }
+        </div>
+      </div>
+    </header>
+
+    <!-- Projects grid -->
+    <div class="projects-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
+      @for (project of filteredProjects; track project.title) {
+        <article
+          [class.lg:col-span-2]="project.featured"
+          class="spotlight-card group relative overflow-hidden bg-white dark:bg-surface-container rounded-2xl
+                 border border-slate-200 dark:border-outline-variant/10
+                 hover:border-indigo-600/30 dark:hover:border-primary/30
+                 transition-all duration-400 shadow-sm hover:shadow-xl hover:shadow-indigo-600/5
+                 dark:hover:shadow-primary/5 flex flex-col cursor-pointer"
+          (click)="openRepo(project.githubUrl, $event)"
+          (mousemove)="onSpotlight($event)"
+          role="link"
+          tabindex="0"
+          (keydown.enter)="openRepo(project.githubUrl, $event)"
+          [attr.aria-label]="'View ' + project.title + ' ' + i18n.get('projects_card_on_gh')">
+
+          <!-- GitHub hover badge -->
+          <div class="absolute top-3 right-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5
+                      bg-slate-900/85 backdrop-blur-sm rounded-full border border-white/10
+                      opacity-0 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0
+                      transition-all duration-300 pointer-events-none">
+            <svg class="w-3.5 h-3.5 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.929.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span class="font-label text-[10px] font-bold uppercase tracking-wider text-white whitespace-nowrap">{{ i18n.get('projects_view_gh') }}</span>
+          </div>
+
+          <!-- Thumbnail with real image -->
+          <div [class]="'relative overflow-hidden bg-gradient-to-br ' + project.gradient"
+               [class.aspect-video]="project.featured"
+               [class.aspect-square]="!project.featured"
+               [class.sm:aspect-video]="!project.featured">
+            <img [src]="project.previewImg"
+                 [alt]="project.title"
+                 crossorigin="anonymous"
+                 (error)="onImgError($event)"
+                 class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" />
+            <!-- Gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+            <!-- Category badge on image -->
+            <span class="absolute bottom-3 left-3 px-2.5 py-1 rounded-full
+                         bg-black/50 backdrop-blur-sm border border-white/10
+                         font-label text-[10px] font-bold uppercase tracking-wider text-white/80">
+              {{ project.category }}
+            </span>
+          </div>
+
+          <!-- Body -->
+          <div class="p-5 sm:p-6 md:p-8 flex flex-col flex-grow">
+            <h3 class="font-headline text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-slate-900 dark:text-on-surface
+                        group-hover:text-indigo-600 dark:group-hover:text-primary transition-colors"
+                [class.sm:text-2xl]="project.featured">
+              {{ project.title }}
+            </h3>
+            <p class="text-slate-500 dark:text-on-surface-variant text-sm font-body mb-4 sm:mb-6 flex-grow leading-relaxed">
+              {{ project.description }}
+            </p>
+            <div class="flex flex-wrap gap-2 items-center">
+              <div class="flex flex-wrap gap-2 flex-1">
+                @for (tag of project.tags; track tag) {
+                  <span class="px-2 sm:px-3 py-1 rounded-full bg-slate-100 dark:bg-surface-container-highest
+                               text-[9px] font-label font-bold uppercase tracking-wider
+                               text-indigo-600 dark:text-tertiary border border-indigo-600/15 dark:border-tertiary/20">
+                    {{ tag }}
+                  </span>
+                }
+              </div>
+              <svg class="w-4 h-4 text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-primary
+                          transition-all duration-300 group-hover:translate-x-0.5 flex-shrink-0 ml-1"
+                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+
+    <!-- CTA banner -->
+    <div class="projects-cta mt-12 sm:mt-20 p-8 sm:p-12 rounded-2xl relative overflow-hidden text-center
+                bg-gradient-to-br from-slate-100 to-slate-200/50 dark:from-surface-container-high dark:to-surface-container-low
+                border border-slate-200 dark:border-outline-variant/10">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-600/8 dark:bg-primary/8 blur-[100px] -mr-32 -mt-32 rounded-full"></div>
+      <p class="font-serif-luxury italic text-indigo-400 dark:text-primary/60 text-lg sm:text-xl mb-3">{{ i18n.get('projects_cta_accent') }}</p>
+      <h2 class="font-headline text-2xl sm:text-3xl md:text-4xl font-bold mb-4 relative z-10 text-slate-900 dark:text-on-surface" [innerHTML]="i18n.get('projects_cta_heading')">
+      </h2>
+      <p class="text-slate-500 dark:text-on-surface-variant max-w-xl mx-auto mb-6 sm:mb-8 relative z-10 font-body text-sm sm:text-base">
+        {{ i18n.get('projects_cta_desc') }}
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center relative z-10">
+        <a href="https://github.com/wassimhamdi2"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-lg
+                  bg-slate-900 dark:bg-surface-container-highest text-white
+                  font-label font-bold uppercase tracking-wider
+                  border border-slate-700 dark:border-outline-variant/20
+                  hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-lg">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.929.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+          </svg>
+          {{ i18n.get('projects_all_repos') }}
+        </a>
+        <button (click)="scrollTo('contact')"
+                class="magnetic-btn btn-gradient px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-white font-label font-bold uppercase tracking-wider shadow-xl hover:scale-[1.02] active:scale-95 transition-all duration-200">
+          {{ i18n.get('projects_contact_me') }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>

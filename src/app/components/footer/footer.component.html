@@ -1,0 +1,52 @@
+<!-- CTA Section -->
+<section class="py-20 sm:py-36 px-4 sm:px-6 md:px-8 relative overflow-hidden bg-white dark:bg-surface transition-colors duration-300">
+  <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/4 via-transparent to-purple-600/4 pointer-events-none"></div>
+  <div class="absolute inset-0 pointer-events-none opacity-[0.02] dark:opacity-[0.04]"
+       style="background-image: linear-gradient(rgba(163,166,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(163,166,255,1) 1px, transparent 1px); background-size: 80px 80px;"></div>
+
+  <div class="max-w-4xl mx-auto text-center relative z-10 px-4">
+    <p class="footer-cta-text font-serif-luxury italic text-indigo-400 dark:text-primary/60 text-lg sm:text-2xl mb-3 sm:mb-4">
+      {{ i18n.get('footer_cta_italic') }}
+    </p>
+    <h2 class="footer-cta-text font-headline text-3xl sm:text-4xl md:text-6xl font-bold mb-6 sm:mb-8 tracking-tighter text-slate-900 dark:text-on-surface">
+      {{ i18n.get('footer_cta_heading') }}
+    </h2>
+    <p class="footer-cta-text font-body text-slate-500 dark:text-on-surface-variant text-base sm:text-lg mb-8 sm:mb-12 max-w-xl mx-auto opacity-80">
+      {{ i18n.get('footer_cta_sub') }}
+    </p>
+    <a href="#contact"
+       class="footer-cta-btn magnetic-btn group relative inline-flex px-8 sm:px-10 py-4 sm:py-5 rounded-lg overflow-hidden
+              bg-slate-900 dark:bg-on-surface text-white dark:text-surface-dim
+              font-headline font-bold transition-all duration-300 active:scale-95">
+      <span class="relative z-10 uppercase tracking-widest text-xs">{{ i18n.get('footer_cta_btn') }}</span>
+      <div class="absolute inset-0 bg-indigo-600 dark:bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+    </a>
+  </div>
+</section>
+
+<!-- Footer bar -->
+<footer class="w-full py-8 sm:py-10 bg-slate-100 dark:bg-slate-950 border-t border-slate-200/50 dark:border-slate-800/50 transition-colors duration-300">
+  <div class="flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 md:px-8 max-w-7xl mx-auto gap-4 sm:gap-6">
+    <div class="text-center md:text-left">
+      <div class="font-headline text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight mb-1 uppercase">
+        {{ i18n.get('footer_brand') }}
+      </div>
+      <p class="text-slate-400 dark:text-slate-500 text-xs font-label uppercase tracking-widest">
+        {{ copyright }}
+      </p>
+    </div>
+    <div class="luxury-divider w-32 hidden md:block"></div>
+    <div class="flex gap-6 sm:gap-8 font-headline text-xs uppercase tracking-widest flex-wrap justify-center">
+      @for (s of socials; track s.label) {
+        <a [href]="s.href" target="_blank"
+           class="text-slate-400 dark:text-slate-500 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors kinetic-border pb-0.5">
+          {{ s.label }}
+        </a>
+      }
+    </div>
+    <div class="flex gap-4 sm:gap-6 text-slate-400 dark:text-slate-500 font-label text-xs uppercase tracking-widest">
+      <a href="mailto:whamdi617@gmail.com" class="hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors">{{ i18n.get('footer_contact') }}</a>
+      <span class="opacity-40">{{ i18n.get('footer_location') }}</span>
+    </div>
+  </div>
+</footer>

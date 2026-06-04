@@ -1,0 +1,91 @@
+<section id="home" class="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
+
+  <!-- Particle canvas -->
+  <canvas #particleCanvas class="absolute inset-0 w-full h-full"></canvas>
+
+  <!-- Ambient blurs -->
+  <div class="absolute top-1/4 -right-20 w-96 h-96 bg-indigo-600/10 dark:bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 -left-20 w-96 h-96 bg-purple-600/10 dark:bg-secondary/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <!-- Diagonal grid overlay -->
+  <div class="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.06]"
+       style="background-image: linear-gradient(rgba(163,166,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(163,166,255,1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center px-4 sm:px-6 pt-20 max-w-5xl mx-auto w-full">
+
+    <!-- Badge -->
+    <div class="gsap-hero-badge border-beam inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full mb-6 sm:mb-8
+                bg-indigo-500/10 dark:bg-primary/10
+                border border-indigo-500/20 dark:border-primary/20
+                backdrop-blur-sm max-w-[90vw]">
+      <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse flex-shrink-0"></span>
+      <span class="font-label text-[10px] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] text-slate-700 dark:text-slate-200 uppercase leading-tight">
+        {{ i18n.get('hero_badge') }}
+      </span>
+    </div>
+
+    <!-- Luxury serif accent -->
+    <p class="gsap-hero-line font-serif-luxury text-base sm:text-xl md:text-2xl italic text-indigo-500/70 dark:text-primary/60 mb-2 tracking-wide">
+      {{ i18n.get('hero_tagline') }}
+    </p>
+
+    <!-- Main headline -->
+    <h1 class="gsap-hero-line font-headline font-bold tracking-tighter leading-[0.85] mb-2
+               text-[3.5rem] sm:text-6xl md:text-8xl lg:text-[10rem]
+               bg-clip-text text-transparent
+               bg-gradient-to-b from-slate-900 to-slate-500
+               dark:from-white dark:to-slate-400">
+      Wassim
+    </h1>
+    <h1 class="gsap-hero-line font-headline font-bold tracking-tighter leading-[0.85] mb-6 sm:mb-8
+               text-[3.5rem] sm:text-6xl md:text-8xl lg:text-[10rem]
+               bg-clip-text text-transparent
+               bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-400
+               dark:from-primary dark:via-secondary dark:to-primary-dim">
+      Hamdi
+    </h1>
+
+    <!-- Sub-headline -->
+    <h2 class="gsap-hero-sub font-headline text-base sm:text-xl md:text-3xl font-medium tracking-tight mb-4 sm:mb-6
+               text-slate-600 dark:text-on-surface/70">
+      {{ i18n.get('hero_sub') }}
+    </h2>
+
+    <!-- Description -->
+    <p class="gsap-hero-para font-body text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed
+              text-slate-500 dark:text-on-surface-variant/80 px-2">
+      {{ i18n.get('hero_desc') }}
+    </p>
+
+    <!-- CTAs -->
+    <div class="gsap-hero-btns flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 sm:px-0">
+      <button
+        (click)="scrollTo('projects')"
+        class="magnetic-btn relative w-full sm:w-auto px-8 py-4 font-bold font-headline rounded-lg overflow-hidden
+               bg-indigo-600 dark:bg-primary text-white dark:text-on-primary
+               shadow-lg shadow-indigo-600/30 dark:shadow-primary/30
+               hover:opacity-90 active:scale-95 transition-all group">
+        <span class="relative z-10 flex items-center justify-center gap-2">
+          {{ i18n.get('hero_portfolio') }}
+          <svg class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+      </button>
+
+      <a [attr.href]="i18n.get('cv_path')" download
+         class="magnetic-btn w-full sm:w-auto px-8 py-4 font-bold font-headline rounded-lg flex items-center justify-center gap-2
+                bg-transparent border border-slate-300 dark:border-outline-variant/30
+                text-slate-700 dark:text-on-surface
+                hover:bg-slate-100 dark:hover:bg-surface-container-low
+                active:scale-95 transition-all">
+        <span class="material-symbols-outlined text-lg text-indigo-600 dark:text-primary">download</span>
+        {{ i18n.get('hero_download_cv') }}
+      </a>
+    </div>
+
+
+  </div>
+</section>

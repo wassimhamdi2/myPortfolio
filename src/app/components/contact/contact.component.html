@@ -1,0 +1,161 @@
+<section id="contact" class="py-16 sm:py-24 px-4 sm:px-6 md:px-8 bg-slate-50 dark:bg-surface-container-low transition-colors duration-300">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-16 lg:gap-24">
+
+      <!-- ── Left: Info ── -->
+      <div class="lg:col-span-5 space-y-8 sm:space-y-10">
+        <header class="space-y-4 sm:space-y-5">
+          <h1 class="font-headline text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[0.95] text-slate-900 dark:text-on-surface">
+            <span [innerHTML]="i18n.get('contact_heading')"></span>
+          </h1>
+          <p class="text-slate-600 dark:text-on-surface-variant text-base sm:text-lg max-w-md leading-relaxed">
+            {{ i18n.get('contact_desc') }}
+          </p>
+        </header>
+
+        <!-- Contact items -->
+        <div class="space-y-1">
+          @for (item of contactItems; track item.label) {
+            <div class="group flex items-start gap-3 sm:gap-4 p-3 sm:p-4 -ml-3 sm:-ml-4 rounded-xl transition-all hover:bg-slate-100 dark:hover:bg-surface-container duration-200">
+              <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center"
+                   [ngClass]="[item.iconBg, item.iconColor]">
+                <span class="material-symbols-outlined text-lg sm:text-xl">{{ item.icon }}</span>
+              </div>
+              <div class="min-w-0">
+                <span class="font-label text-xs uppercase tracking-widest text-slate-500 dark:text-on-surface-variant block mb-1">
+                  {{ item.label }}
+                </span>
+                @if (item.href) {
+                  <a [href]="item.href"
+                     [attr.target]="item.href.startsWith('http') ? '_blank' : null"
+                     class="font-headline text-base sm:text-xl text-slate-900 dark:text-on-surface hover:text-indigo-600 dark:hover:text-primary transition-colors break-all">
+                    {{ item.value }}
+                  </a>
+                } @else {
+                  <span class="font-headline text-base sm:text-xl text-slate-900 dark:text-on-surface">{{ item.value }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Decorative dots -->
+        <div class="pt-2 sm:pt-4">
+          <div class="w-full h-px bg-slate-200 dark:bg-outline-variant opacity-30 mb-4 sm:mb-6"></div>
+          <div class="flex gap-2">
+            <div class="w-2 h-2 rounded-full bg-indigo-600 dark:bg-primary opacity-50"></div>
+            <div class="w-2 h-2 rounded-full bg-purple-600 dark:bg-secondary opacity-50"></div>
+            <div class="w-2 h-2 rounded-full bg-sky-500 dark:bg-tertiary opacity-50"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Right: Form ── -->
+      <div class="lg:col-span-7">
+        <div class="glass-panel p-6 sm:p-8 md:p-12 rounded-xl shadow-2xl relative overflow-hidden bg-white/60 dark:bg-surface-container/60">
+          <div class="absolute -top-24 -right-24 w-64 h-64 bg-indigo-600/5 dark:bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+          <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-5 sm:space-y-7 relative z-10">
+            <!-- Name + Email -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7">
+              <div class="space-y-2">
+                <label class="font-label text-sm text-slate-500 dark:text-on-surface-variant" for="from_name">{{ i18n.get('contact_form_name') }}</label>
+                <input id="from_name" formControlName="from_name" type="text" [placeholder]="i18n.get('contact_placeholder_name')"
+                  class="w-full bg-slate-50 dark:bg-surface-container-lowest border rounded-md px-4 py-3 text-slate-900 dark:text-on-surface placeholder-slate-400 dark:placeholder-on-surface-variant/50 focus:outline-none focus:ring-1 transition-all font-body text-sm sm:text-base"
+                  [ngClass]="{
+                    'border-slate-200 dark:border-outline-variant/15 focus:border-indigo-600 dark:focus:border-primary focus:ring-indigo-600/20 dark:focus:ring-primary/20': !isInvalid('from_name'),
+                    'border-red-400 dark:border-red-500/60 focus:ring-red-400/20': isInvalid('from_name')
+                  }" />
+                @if (isInvalid('from_name')) {
+                  <p class="text-xs text-red-500 font-label">{{ i18n.get('contact_form_error_name') }}</p>
+                }
+              </div>
+              <div class="space-y-2">
+                <label class="font-label text-sm text-slate-500 dark:text-on-surface-variant" for="from_email">{{ i18n.get('contact_form_email') }}</label>
+                <input id="from_email" formControlName="from_email" type="email" [placeholder]="i18n.get('contact_placeholder_email')"
+                  class="w-full bg-slate-50 dark:bg-surface-container-lowest border rounded-md px-4 py-3 text-slate-900 dark:text-on-surface placeholder-slate-400 dark:placeholder-on-surface-variant/50 focus:outline-none focus:ring-1 transition-all font-body text-sm sm:text-base"
+                  [ngClass]="{
+                    'border-slate-200 dark:border-outline-variant/15 focus:border-indigo-600 dark:focus:border-primary focus:ring-indigo-600/20 dark:focus:ring-primary/20': !isInvalid('from_email'),
+                    'border-red-400 dark:border-red-500/60 focus:ring-red-400/20': isInvalid('from_email')
+                  }" />
+                @if (isInvalid('from_email')) {
+                  <p class="text-xs text-red-500 font-label">{{ i18n.get('contact_form_error_email') }}</p>
+                }
+              </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="space-y-2">
+              <label class="font-label text-sm text-slate-500 dark:text-on-surface-variant" for="subject">{{ i18n.get('contact_form_subject') }}</label>
+              <input id="subject" formControlName="subject" type="text" [placeholder]="i18n.get('contact_placeholder_subject')"
+                class="w-full bg-slate-50 dark:bg-surface-container-lowest border rounded-md px-4 py-3 text-slate-900 dark:text-on-surface placeholder-slate-400 dark:placeholder-on-surface-variant/50 focus:outline-none focus:ring-1 transition-all font-body text-sm sm:text-base"
+                [ngClass]="{
+                  'border-slate-200 dark:border-outline-variant/15 focus:border-indigo-600 dark:focus:border-primary focus:ring-indigo-600/20 dark:focus:ring-primary/20': !isInvalid('subject'),
+                  'border-red-400 dark:border-red-500/60 focus:ring-red-400/20': isInvalid('subject')
+                }" />
+              @if (isInvalid('subject')) {
+                <p class="text-xs text-red-500 font-label">{{ i18n.get('contact_form_error_subject') }}</p>
+              }
+            </div>
+
+            <!-- Message -->
+            <div class="space-y-2">
+              <label class="font-label text-sm text-slate-500 dark:text-on-surface-variant" for="message">{{ i18n.get('contact_form_message') }}</label>
+              <textarea id="message" formControlName="message" rows="5" [placeholder]="i18n.get('contact_placeholder_message')"
+                class="w-full bg-slate-50 dark:bg-surface-container-lowest border rounded-md px-4 py-3 text-slate-900 dark:text-on-surface placeholder-slate-400 dark:placeholder-on-surface-variant/50 focus:outline-none focus:ring-1 transition-all font-body resize-none text-sm sm:text-base"
+                [ngClass]="{
+                  'border-slate-200 dark:border-outline-variant/15 focus:border-indigo-600 dark:focus:border-primary focus:ring-indigo-600/20 dark:focus:ring-primary/20': !isInvalid('message'),
+                  'border-red-400 dark:border-red-500/60 focus:ring-red-400/20': isInvalid('message')
+                }">
+              </textarea>
+              @if (isInvalid('message')) {
+                <p class="text-xs text-red-500 font-label">{{ i18n.get('contact_form_error_message') }}</p>
+              }
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" [disabled]="submitting()"
+              class="btn-gradient w-full sm:w-auto px-8 sm:px-10 py-3 sm:py-4 text-white font-headline font-bold rounded-md flex items-center justify-center gap-3 group transition-all active:scale-[0.98] duration-200 disabled:opacity-60 disabled:cursor-not-allowed">
+              <span>{{ submitting() ? i18n.get('contact_form_sending') : i18n.get('contact_form_send') }}</span>
+              @if (!submitting()) {
+                <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">send</span>
+              } @else {
+                <span class="material-symbols-outlined text-xl animate-spin">progress_activity</span>
+              }
+            </button>
+          </form>
+
+          @if (submitted()) {
+            <div class="mt-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/30 rounded-lg flex items-center gap-3">
+              <span class="material-symbols-outlined text-green-600 dark:text-green-400">check_circle</span>
+              <div>
+                <p class="text-green-700 dark:text-green-400 font-label text-sm font-bold">{{ i18n.get('contact_form_sent') }}</p>
+                <p class="text-green-600 dark:text-green-500 font-label text-xs mt-0.5">{{ i18n.get('contact_form_sent_sub') }}</p>
+              </div>
+            </div>
+          }
+
+          @if (errorMsg()) {
+            <div class="mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-lg flex items-start gap-3">
+              <span class="material-symbols-outlined text-red-500 dark:text-red-400 flex-shrink-0">error</span>
+              <div>
+                <p class="text-red-700 dark:text-red-400 font-label text-sm font-medium">{{ errorMsg() }}</p>
+                <a href="mailto:whamdi617@gmail.com"
+                   class="text-xs text-red-600 dark:text-red-400 underline mt-1 inline-block hover:no-underline">
+                  {{ i18n.get('contact_fallback_link') }}
+                </a>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="mt-4 sm:mt-6 flex items-center gap-3 text-slate-400 dark:text-on-surface-variant opacity-60">
+          <span class="material-symbols-outlined text-lg">lock</span>
+          <p class="font-label text-xs tracking-wide uppercase">{{ i18n.get('contact_security') }}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
