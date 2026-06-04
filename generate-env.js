@@ -1,4 +1,6 @@
 const fs = require('fs');
+const path = require('path');
+const dir = 'src/environments';
 const env = `export const environment = {
   emailjs: {
     publicKey: '${process.env.EMAILJS_PUBLIC_KEY || ''}',
@@ -6,4 +8,5 @@ const env = `export const environment = {
     templateId: '${process.env.EMAILJS_TEMPLATE_ID || ''}',
   },
 };`;
-fs.writeFileSync('src/environments/environment.ts', env);
+fs.mkdirSync(dir, { recursive: true });
+fs.writeFileSync(path.join(dir, 'environment.ts'), env);
